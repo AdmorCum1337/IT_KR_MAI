@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список котиков</title>
+  <style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
+
+table, td, th {
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 15px;
+}
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+</style>
+
+</head>
+<body>
+
+<ul>
+  <li><a class="active" href="{% url 'cat_list' %}">Home</a></li>
+  <li><a href="about">About</a></li>
+</ul>
+
+<h1>Cats</h1>
+
+<form method="get">
+  <label for="q">Search:</label>
+  <input type="text" name="q" value="{{ query }}">
+  <button type="submit">Search</button>
+</form>
+
+<a href="{% url 'cat_create' %}">Add a cat</a>
+
+<table>
+  <thead>
+    <tr>
+      <th><a href="?order_by=name{% if order_by == 'name' %}&desc{% endif %}">Name</a></th>
+      <th><a href="?order_by=breed{% if order_by == 'breed' %}&desc{% endif %}">Breed</a></th>
+      <th><a href="?order_by=age{% if order_by == 'age' %}&desc{% endif %}">Age</a></th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for cat in cats %}
+      <tr>
+        <td>{{ cat.name }}</td>
+        <td>{{ cat.breed }}</td>
+        <td>{{ cat.age }}</td>
+        <td>
+          <a href="{% url 'cat_update' cat.pk %}">Edit</a>
+          <a href="{% url 'cat_delete' cat.pk %}">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+</body>
+</html>
